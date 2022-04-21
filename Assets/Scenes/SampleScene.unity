@@ -31453,7 +31453,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4108686f2aebc943b2d22ad31854523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 4
+  speedFactorInEndGame: -0.1
+  endGame: 0
+  player: {fileID: 1940293694}
 --- !u!212 &1854801577
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -7,10 +7,12 @@ public class Enemy : MonoBehaviour
 {
 
     public float speed;
+    public float speedFactorInEndGame;
     public bool endGame;
     public Transform player;
 
     private Rigidbody2D rig;
+    private BoxCollider2D col;
     private Vector2 _direction;
     private float acelerationTime = 5f;
     private float timeleft;
@@ -19,6 +21,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        col = GetComponent<BoxCollider2D>();
         endGame = false;
     }
 
@@ -39,11 +42,12 @@ public class Enemy : MonoBehaviour
     {
         if (!endGame)
         {
+            col.enabled = true;
             RandomSteps();
             return;
         }
+        col.enabled = false;
         FollowPlayer(playerDirection);
-
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -56,7 +60,8 @@ public class Enemy : MonoBehaviour
     }
     private void FollowPlayer(Vector2 playerDirection)
     {
-        rig.MovePosition((Vector2)transform.position + (playerDirection.normalized * speed * Time.deltaTime));
+        float speedEndGame = (float) (1 + speedFactorInEndGame) * speed;
+        rig.MovePosition((Vector2)transform.position + (playerDirection.normalized * speedEndGame * Time.deltaTime));
     }
     #endregion
 }
