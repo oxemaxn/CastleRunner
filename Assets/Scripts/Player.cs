@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rig;
     private Vector2 _direction;
+    public Transform enemy;
+    public float enemyDistanceThreshold;
+    public GameObject warnObject;
 
     //Acessando _direction de forma correta para ser usado em outro script
     public Vector2 direction
@@ -16,14 +20,20 @@ public class Player : MonoBehaviour
         get { return _direction; }
         set { _direction = value; }
     }
-
+  
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+      
     }
 
     private void Update() //Relacionado a input
     {
+        bool isClose = CheckIfTheEnemyIsClose();
+        Debug.Log(isClose);
+        if (isClose) warnObject.SetActive(true);
+        else warnObject.SetActive(false);
+
         OnInput();
     }
 
@@ -42,6 +52,18 @@ public class Player : MonoBehaviour
         {
             rig.MovePosition(rig.position + _direction * speed * Time.fixedDeltaTime);
         }
+
+    #endregion
+
+
+    #region Interactors
+    private bool CheckIfTheEnemyIsClose()
+    {
+        Vector3 enemyPosition = enemy.position;
+        float distanceBetwwenEnemyAndPlayer = Vector3.Distance(enemyPosition, rig.position);
+
+        return distanceBetwwenEnemyAndPlayer <= enemyDistanceThreshold;
+    }
 
     #endregion
 }

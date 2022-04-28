@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
 
     public float speed;
-    public float speedFactorInEndGame;
+    public float speedEndGame;
     public bool endGame;
     public Transform player;
 
@@ -18,10 +18,17 @@ public class Enemy : MonoBehaviour
     private float timeleft;
     private Vector2 playerDirection;
 
+    public Vector2 direction
+    {
+        get { return _direction; }
+        set { _direction = value; }
+    }
+
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
+      
         endGame = false;
     }
 
@@ -60,7 +67,7 @@ public class Enemy : MonoBehaviour
     }
     private void FollowPlayer(Vector2 playerDirection)
     {
-        float speedEndGame = (float) (1 + speedFactorInEndGame) * speed;
+      
         rig.MovePosition((Vector2)transform.position + (playerDirection.normalized * speedEndGame * Time.deltaTime));
     }
     #endregion
