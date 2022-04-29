@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - LetterText
+  - Letter0
+  - Letter1
+  - Letter2
   layers:
   - Default
   - TransparentFX

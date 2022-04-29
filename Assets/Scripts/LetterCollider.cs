@@ -12,7 +12,6 @@ public class LetterCollider : MonoBehaviour
         if (manager)
         {
             manager.PickupLetter(gameObject);
-            Destroy(gameObject);
         }
     }
 }

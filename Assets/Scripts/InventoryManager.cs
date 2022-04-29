@@ -5,21 +5,76 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-    // public int inventoryCounter;
     public List<char> inventoryList = new List<char>();
+    public int numberOfLetters = 3;
+    public string word = "BAG";
     private Canvas canvas;
     private TextMeshPro mesh;
+    private GameObject objectChild;
+    private char letterToAdd;
 
     public void PickupLetter(GameObject obj)
     {   
-        // obj.FindGameObjectsWithTag("LetterText").text
-        canvas = obj.GetComponent<Canvas>();
         Debug.LogWarning($"Teste 3: {obj.transform.GetChild(0).GetChild(0).gameObject.tag}");
-        if (canvas != null)
-            mesh = canvas.GetComponent<TextMeshPro>();
-        if (mesh != null)
-            Debug.LogWarning($"Teste 2: {mesh.tag}");
-        Debug.LogWarning($"Teste: no");
-        inventoryList.Add('A');
+        objectChild = obj.transform.GetChild(0).GetChild(0).gameObject;
+
+        if (obj.transform.GetChild(0).GetChild(0).gameObject.tag == "LetterText")
+        {
+            letterToAdd = objectChild.GetComponentInChildren<TextMeshProUGUI>().text.ToCharArray()[0];
+            inventoryList.Add(letterToAdd);
+            if(!LevelFinished() && LevelWronglyFinished())
+            {
+                inventoryList.Clear();
+            } else if(LevelFinished()) {
+                // Finalizar o level
+            }
+            UpdateInventoryLetters();
+            Destroy(obj);
+        }
+    }
+
+    public void UpdateInventoryLetters()
+    {
+        for(int i = 0; i < numberOfLetters; i++)
+        {
+            var inventoryItem = GameObject.FindWithTag($"Letter{i}");
+            var itemText = inventoryItem.GetComponent<TMPro.TextMeshProUGUI>();
+            if(i <= inventoryList.Count -1)
+            {
+                itemText.text = inventoryList[i].ToString();
+            } else {
+                itemText.text = '_'.ToString();
+            }
+        }
+    }
+
+    public bool LevelFinished()
+    {
+        if(inventoryList.Count == numberOfLetters)
+        {
+            if(new string(inventoryList.ToArray()) == word)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool LevelWronglyFinished()
+    {
+        if(inventoryList.Count == numberOfLetters)
+        {
+            if(new string(inventoryList.ToArray()) != word)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void clearBag()
+    {
+        inventoryList.Clear();
+        UpdateInventoryLetters();
     }
 }
