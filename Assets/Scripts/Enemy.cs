@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
         }
         col.enabled = false;
         FollowPlayer(playerDirection);
+        OnCollisionInEndGame();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -69,6 +70,16 @@ public class Enemy : MonoBehaviour
     {
       
         rig.MovePosition((Vector2)transform.position + (playerDirection.normalized * speedEndGame * Time.deltaTime));
+    }
+
+    private void OnCollisionInEndGame()
+    {
+        float precision = 0.1f;
+        if (Vector2.Distance(player.position, rig.position) <= precision)
+        {
+            print("entrou");
+            col.enabled = true;
+        }
     }
     #endregion
 }
