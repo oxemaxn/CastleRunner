@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/fase_5.unity
     guid: 9822a86c75902204c9e70fef6009de09
+  - enabled: 1
+    path: Assets/Scenes/game_over.unity
+    guid: a11916a97b61c3a45a8047fa4449268b
   m_configObjects: {}

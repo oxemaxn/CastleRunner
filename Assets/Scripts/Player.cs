@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -30,7 +28,6 @@ public class Player : MonoBehaviour
     private void Update() //Relacionado a input
     {
         bool isClose = CheckIfTheEnemyIsClose();
-        Debug.Log(isClose);
         if (isClose) warnObject.SetActive(true);
         else warnObject.SetActive(false);
 
@@ -63,6 +60,16 @@ public class Player : MonoBehaviour
         float distanceBetwwenEnemyAndPlayer = Vector3.Distance(enemyPosition, rig.position);
 
         return distanceBetwwenEnemyAndPlayer <= enemyDistanceThreshold;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print("colidiu");
+        if (collision.gameObject.name == "Enemy")
+        {
+
+            SceneManager.LoadScene("game_over");
+        }
     }
 
     #endregion
