@@ -8,6 +8,7 @@ TagManager:
   - Letter0
   - Letter1
   - Letter2
+  - LetterContainer
   layers:
   - Default
   - TransparentFX
