@@ -8,9 +8,10 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rig;
     private Vector2 _direction;
-    public Transform enemy;
+    public GameObject enemy;
     public float enemyDistanceThreshold;
     public GameObject warnObject;
+    public string letters;
 
     //Acessando _direction de forma correta para ser usado em outro script
     public Vector2 direction
@@ -22,14 +23,21 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
-      
+        letters = "";
     }
 
     private void Update() //Relacionado a input
     {
         bool isClose = CheckIfTheEnemyIsClose();
-        if (isClose) warnObject.SetActive(true);
-        else warnObject.SetActive(false);
+        if (isClose)
+        {
+            warnObject.SetActive(true);
+            enemy.GetComponent<Renderer>().enabled = true;
+        }
+        else { 
+            warnObject.SetActive(false);
+            enemy.GetComponent<Renderer>().enabled = false;
+        }
 
         OnInput();
     }
@@ -56,7 +64,8 @@ public class Player : MonoBehaviour
     #region Interactors
     private bool CheckIfTheEnemyIsClose()
     {
-        Vector3 enemyPosition = enemy.position;
+
+        Vector3 enemyPosition = enemy.transform.position;
         float distanceBetwwenEnemyAndPlayer = Vector3.Distance(enemyPosition, rig.position);
 
         return distanceBetwwenEnemyAndPlayer <= enemyDistanceThreshold;
@@ -64,10 +73,8 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("colidiu");
         if (collision.gameObject.name == "Enemy")
         {
-
             SceneManager.LoadScene("game_over");
         }
     }

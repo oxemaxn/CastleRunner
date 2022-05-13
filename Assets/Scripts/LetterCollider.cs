@@ -4,14 +4,27 @@ using UnityEngine;
 
 public class LetterCollider : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    public string letterValue;
+    public bool isActive;
+    public GameController GC;
+
+
+
+    private void OnCollisionStay2D(Collision2D collision)
     {
 
-        InventoryManager manager = collision.GetComponent<InventoryManager>();
+    }
 
-        if (manager)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Player")
         {
-            manager.PickupLetter(gameObject);
+            gameObject.SetActive(false);
+            GC.SetBagLevel(letterValue);
         }
+    }
+    public void SetActiveLetter()
+    {
+        gameObject.SetActive(true);
     }
 }

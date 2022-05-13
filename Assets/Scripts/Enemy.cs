@@ -8,7 +8,6 @@ public class Enemy : MonoBehaviour
 
     public float speed;
     public float speedEndGame;
-    public bool endGame;
     public Transform player;
 
     private Rigidbody2D rig;
@@ -17,6 +16,8 @@ public class Enemy : MonoBehaviour
     private float acelerationTime = 5f;
     private float timeleft;
     private Vector2 playerDirection;
+
+    public GameController GC;
 
     public Vector2 direction
     {
@@ -28,8 +29,7 @@ public class Enemy : MonoBehaviour
     {
         rig = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
-      
-        endGame = false;
+        gameObject.GetComponent<Renderer>().enabled = false;
     }
 
     private void Update()
@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!endGame)
+        if (!GC.isEndGame)
         {
             col.enabled = true;
             RandomSteps();
@@ -61,6 +61,7 @@ public class Enemy : MonoBehaviour
     {
         _direction *= -1;
     }
+    
     #region Moviment
     private void RandomSteps()
     {
@@ -77,7 +78,6 @@ public class Enemy : MonoBehaviour
         float precision = 0.1f;
         if (Vector2.Distance(player.position, rig.position) <= precision)
         {
-            print("entrou");
             col.enabled = true;
         }
     }

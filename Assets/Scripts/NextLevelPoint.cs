@@ -8,9 +8,8 @@ public class NextLevelPoint : MonoBehaviour
     public string lvlName;
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player" )
+        if(collision.gameObject.name == "Player" )
         {
-            Debug.Log("LEVEL 2");
             SceneManager.LoadScene(lvlName);
         }
     }
